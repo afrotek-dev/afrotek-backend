@@ -6,9 +6,17 @@
   "scripts": {
     "start:auth": "cd services/auth-service && npm run start:dev",
     "start:product": "cd services/product-service && npm run start:dev",
+    "start:order": "cd services/order-service && npm run start:dev",
+    "start:user": "cd services/user-service && npm run start:dev",
     "build": "tsc -p tsconfig.json",
+    "build:common": "tsc -b libs/common/tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "libs/*"
+  ],
   "keywords": [
     "afrotek",
     "backend",
@@ -19,21 +27,31 @@
   "license": "ISC",
   "devDependencies": {
     "@nestjs/cli": "^11.0.10",
+    "@nestjs/mapped-types": "^2.1.0",
+    "@nestjs/testing": "^11.0.0",
+    "@types/jest": "^29.4.1",
+    "@types/passport-jwt": "^4.0.1",
     "nodemon": "^3.1.10",
+    "supertest": "^6.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.350.0",
+    "@aws-sdk/s3-request-presigner": "^3.350.0",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/jwt": "^11.0.1",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/typeorm": "^11.0.0",
     "aws-sdk": "^2.1692.0",
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^3.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.3",
+    "rxjs": "7.5.7",
     "typeorm": "^0.3.27"
   }
 }

@@ -1,1 +1,1 @@
-export const log = (msg: string) => console.log(`[Afrotek] ${msg}`);
+module.exports.log = (msg: string) => console.log(`[Afrotek] ${msg}`);

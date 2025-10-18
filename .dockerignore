@@ -1,0 +1,20 @@
+# Ignore node_modules and git history to keep the build context small
+.git
+node_modules
+
+# Ignore build output directories
+dist
+build
+
+# Ignore local environment files and logs
+.env
+*.log
+npm-debug.log
+
+# Ignore markdown files
+*.md
+
+# Ignore the dockerfiles themselves from the context
+Dockerfile
+Dockerfile.prod
+docker-compose.yml

@@ -1,0 +1,94 @@
+version: "3.9"
+
+services:
+  product-service:
+    build:
+      context: .
+      dockerfile: services/product-service/Dockerfile
+    container_name: afrotek-product-service
+    env_file: .env
+    environment:
+      DB_HOST: db
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db
+    networks:
+      - afrotek-net
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth-service/Dockerfile
+    container_name: afrotek-auth-service
+    env_file: .env
+    environment:
+      DB_HOST: db
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    networks:
+      - afrotek-net
+
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user-service/Dockerfile.prod
+    container_name: afrotek-user-service
+    env_file: .env
+    environment:
+      DB_HOST: db
+    ports:
+      - "3003:3003"
+    depends_on:
+      - db
+    networks:
+      - afrotek-net
+
+  order-service:
+    build:
+      context: .
+      dockerfile: services/order-service/Dockerfile
+    container_name: afrotek-order-service
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      AUTH_SERVICE_URL: http://auth-service:3001
+      USER_SERVICE_URL: http://user-service:3003
+      PRODUCT_SERVICE_URL: http://product-service:3002
+    ports:
+      - "3004:3004"
+    depends_on:
+      - db
+    networks:
+      - afrotek-net
+
+  db:
+    image: postgres:14
+    container_name: afrotek-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - afrotek-net
+
+volumes:
+  pgdata:
+
+networks:
+  afrotek-net:

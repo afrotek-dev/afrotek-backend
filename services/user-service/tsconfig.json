@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../../",
+    "outDir": "dist",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@afrotek/common": ["../../libs/common/src"],
+      "@afrotek/common/*": ["../../libs/common/src/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../../libs/common/src/**/*"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

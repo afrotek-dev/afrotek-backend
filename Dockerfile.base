@@ -1,0 +1,29 @@
+# ==========================================================
+# Afrotek Base Image for all NestJS Microservices
+# ==========================================================
+FROM node:20-alpine AS base
+
+# Install essential build tools for native modules like bcrypt
+RUN apk add --no-cache python3 make g++ bash
+
+# Global npm configuration to improve network stability
+RUN npm config set fetch-retries 5 \
+    && npm config set fetch-retry-mintimeout 20000 \
+    && npm config set fetch-retry-maxtimeout 120000 \
+    && npm config set registry https://registry.npmjs.org/ \
+    && npm config set legacy-peer-deps true
+
+WORKDIR /app
+COPY package*.json ./
+
+# Pre-install shared dependencies (used by all microservices)
+RUN npm ci --legacy-peer-deps
+
+COPY tsconfig.json ./
+COPY libs ./libs
+
+# Base image now has:
+# - node_modules (shared)
+# - build tools preinstalled
+# - shared libs
+# ==========================================================
