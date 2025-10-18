@@ -1,3 +1,18 @@
+# Compiled files
+**/dist/
+**/src/**/*.js
+**/src/**/*.d.ts
+**/src/**/*.map
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Git backup of nested repo
+libs/common/.git_backup/
 # Logs
 logs
 *.log
